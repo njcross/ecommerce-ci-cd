@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../hooks/useTypedRedux';
-import { removeFromCart, clearCart } from '../redux/cartSlice';
+import { removeFromCart, clearCart } from '../store/cartSlice';
 import { Button, Table } from 'react-bootstrap';
 
 const Cart: React.FC = () => {

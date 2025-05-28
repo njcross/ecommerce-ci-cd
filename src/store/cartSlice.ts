@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// src/store/cartSlice.ts
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface CartItem {
   id: number;
@@ -12,17 +14,8 @@ interface CartState {
   items: CartItem[];
 }
 
-const loadFromSession = (): CartItem[] => {
-  const data = sessionStorage.getItem('cart');
-  return data ? JSON.parse(data) : [];
-};
-
 const initialState: CartState = {
-  items: loadFromSession(),
-};
-
-const saveToSession = (items: CartItem[]) => {
-  sessionStorage.setItem('cart', JSON.stringify(items));
+  items: JSON.parse(sessionStorage.getItem('cart') || '[]'),
 };
 
 const cartSlice = createSlice({
@@ -30,17 +23,17 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<CartItem>) {
-      const item = state.items.find(i => i.id === action.payload.id);
+      const item = state.items.find((i) => i.id === action.payload.id);
       if (item) {
         item.quantity += 1;
       } else {
         state.items.push({ ...action.payload, quantity: 1 });
       }
-      saveToSession(state.items);
+      sessionStorage.setItem('cart', JSON.stringify(state.items));
     },
     removeFromCart(state, action: PayloadAction<number>) {
-      state.items = state.items.filter(i => i.id !== action.payload);
-      saveToSession(state.items);
+      state.items = state.items.filter((item) => item.id !== action.payload);
+      sessionStorage.setItem('cart', JSON.stringify(state.items));
     },
     clearCart(state) {
       state.items = [];
@@ -51,4 +44,3 @@ const cartSlice = createSlice({
 
 export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
-export type { CartItem };

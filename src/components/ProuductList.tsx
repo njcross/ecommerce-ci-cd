@@ -1,6 +1,6 @@
 import { useProducts } from '../hooks/useProducts';
 import { useAppDispatch } from '../hooks/useTypedRedux';
-import { addToCart } from '../redux/cartSlice';
+import { addToCart } from '../store/cartSlice';
 import { Button, Card, Col, Row, Spinner } from 'react-bootstrap';
 
 interface Props {
