@@ -2,7 +2,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../store';
-import { removeFromCart, clearCart } from '../store/cartSlice';
+import { removeFromCart, clearCart, updateQuantity } from '../store/cartSlice';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,11 @@ const Cart: React.FC = () => {
     dispatch(clearCart());
     alert('Checkout successful!');
   };
+  const handleQuantityChange = (id: number, quantity: number) => {
+    if (quantity < 1) return;
+    dispatch(updateQuantity({ id, quantity }));
+  };
+
 
   return (
     <div>
@@ -28,7 +33,12 @@ const Cart: React.FC = () => {
               <li key={item.id}>
                 <img src={item.image} alt={item.title} width={50} />
                 <span>{item.title}</span>
-                <span>Quantity: {item.quantity}</span>
+                <span> Quantity: <input
+                  type="number"
+                  min="1"
+                  value={item.quantity}
+                  onChange={(e) => handleQuantityChange(item.id, Number(e.target.value))}
+                /></span>
                 <span>Price: ${item.price}</span>
                 <button onClick={() => dispatch(removeFromCart(item.id))}>Remove</button>
               </li>

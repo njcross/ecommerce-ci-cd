@@ -1,7 +1,6 @@
 // src/store/cartSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { useNavigate } from 'react-router-dom';
 
 interface CartItem {
   id: number;
@@ -18,7 +17,6 @@ interface CartState {
 const initialState: CartState = {
   items: JSON.parse(sessionStorage.getItem('cart') || '[]'),
 };
-const navigate = useNavigate();
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -32,7 +30,6 @@ const cartSlice = createSlice({
         state.items.push({ ...action.payload, quantity: 1 });
       }
       sessionStorage.setItem('cart', JSON.stringify(state.items));
-      navigate('/cart');
     },
     removeFromCart(state, action: PayloadAction<number>) {
       state.items = state.items.filter((item) => item.id !== action.payload);
@@ -42,8 +39,15 @@ const cartSlice = createSlice({
       state.items = [];
       sessionStorage.removeItem('cart');
     },
+    updateQuantity(state, action: PayloadAction<{ id: number; quantity: number }>) {
+      const item = state.items.find((i) => i.id === action.payload.id);
+      if (item) {
+        item.quantity = action.payload.quantity;
+      }
+      sessionStorage.setItem('cart', JSON.stringify(state.items));
+    },
   },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart, updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -3,10 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
 import { fetchProducts, fetchCategories, fetchProductsByCategory } from '../api/products';
 import { addToCart } from '../store/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const navigate = useNavigate();
 
   // Fetch categories
   const { data: categories, isLoading: loadingCategories } = useQuery({
@@ -55,7 +57,7 @@ const Home: React.FC = () => {
               <p>${product.price}</p>
               <p>{product.description}</p>
               <p>Rating: {product.rating.rate}</p>
-              <button onClick={() => dispatch(addToCart(product))}>
+              <button onClick={() => { dispatch(addToCart(product)); navigate('/cart'); }}>
                 Add to Cart
               </button>
             </div>
