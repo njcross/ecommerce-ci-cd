@@ -83,12 +83,28 @@ const Home: React.FC = () => {
   };
 
 
-  const handleUpdate = (id: string) => {
-    const updatedTitle = prompt('Enter new title:');
-    if (updatedTitle) {
-      updateMutation.mutate({ id, updates: { title: updatedTitle } });
+  const handleUpdate = (id: string, currentProduct: Product) => {
+    const title = prompt('New title:', currentProduct.title);
+    const price = prompt('New price:', String(currentProduct.price));
+    const description = prompt('New description:', currentProduct.description);
+    const stock = prompt('New stock:', String(currentProduct.stock));
+    const imageUrl = prompt('New image URL:', currentProduct.imageUrl);
+
+    if (title && price && description && stock && imageUrl) {
+      updateMutation.mutate({
+        id,
+        updates: {
+          title,
+          price: parseFloat(price),
+          description,
+          stock: parseInt(stock, 10),
+          imageUrl,
+        },
+      });
     }
   };
+
+
 
   const handleDelete = (id: string) => {
     if (window.confirm('Delete this product?')) {
@@ -141,7 +157,7 @@ const Home: React.FC = () => {
               <p>{product.description}</p>
               <p>Stock: {product.stock}</p>
               <button onClick={() => dispatch(addToCart(product))}>Add to Cart</button>
-              <button onClick={() => handleUpdate(product.id)}>Edit</button>
+              <button onClick={() => handleUpdate(product.id, product)}>Edit</button>
               <button onClick={() => handleDelete(product.id)}>Delete</button>
             </div>
           ))}
