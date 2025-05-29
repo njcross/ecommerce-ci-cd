@@ -1,102 +1,106 @@
 
-# 🛒 Ecommerce App with Firebase
+# 🛒 Ecommerce React + Firebase App
 
-A fully functional e-commerce web application built with React, Redux Toolkit, React Query, and Firebase. This project simulates a real online store using the [FakeStoreAPI](https://fakestoreapi.com/) and demonstrates advanced concepts such as API integration, state management, and session persistence.
+A full-stack e-commerce application built with React, Redux, Firebase, and React Query. Users can browse products, add to cart, check out, and view order history.
+
+---
 
 ## 🚀 Features
 
-- Product Catalog: Browse all products fetched from FakeStoreAPI.
-- Product Management: Admin users can create, update, and delete products.
-- Shopping Cart: Add products to the cart with quantity management and session persistence.
-- User Authentication: Firebase Authentication with email/password support.
-- Order Management: Checkout process with order history stored in Firebase Firestore.
-- Responsive Design: Mobile-friendly and responsive UI.
+- View, add, edit, and delete products.
+- Add products to a shopping cart with quantity management.
+- Checkout and create orders in Firestore.
+- View past orders with timestamps.
+- Firebase Authentication for user management.
+- React Query for data fetching and caching.
+- Redux Toolkit for cart and auth state management.
+- TypeScript for type safety.
+- CI/CD with GitHub Actions and Vercel.
 
-## 🛠️ Technologies Used
+---
 
-- React
-- Redux Toolkit
-- React Query
-- Firebase (Authentication & Firestore)
-- TypeScript
-- Vite
-- Bootstrap
+## 🧪 Testing Strategy
 
-## 📦 Installation
+### ✅ Unit Tests
 
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/njcross/ecomerce-firebase.git
-   cd ecomerce-firebase
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Set up Firebase:**
-
-   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
-   - Enable **Authentication** (Email/Password) and **Firestore Database**.
-   - Obtain your Firebase configuration and create a `.env` file in the root directory:
-
-     ```env
-     VITE_FIREBASE_API_KEY=your_api_key
-     VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-     VITE_FIREBASE_PROJECT_ID=your_project_id
-     VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-     VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-     VITE_FIREBASE_APP_ID=your_app_id
-     ```
-
-4. **Run the development server:**
-
-   ```bash
-   npm run dev
-   ```
-
-   The application will be available at `http://localhost:5173/`.
-
-## 📁 Project Structure
-
-```
-ecomerce-firebase/
-├── public/
-├── src/
-│   ├── api/               # API calls to FakeStoreAPI
-│   ├── components/        # Reusable UI components
-│   ├── pages/             # Page components (Home, Cart, Orders, etc.)
-│   ├── store/             # Redux slices and store configuration
-│   ├── types/             # TypeScript type definitions
-│   ├── firebaseConfig.ts  # Firebase configuration
-│   └── main.tsx           # Application entry point
-├── .env                   # Environment variables
-├── package.json
-├── tsconfig.json
-└── vite.config.ts
-```
-
-## 🧪 Testing
-
-To run tests (if available), use:
+- Tests are written using **Jest** and **React Testing Library**.
+- Includes component rendering, state updates, and user interactions.
 
 ```bash
 npm test
 ```
 
-## 📄 License
+### ✅ Integration Tests
 
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-For more information, visit the [GitHub repository](https://github.com/njcross/ecomerce-firebase).
+- Simulates adding a product to the cart.
+- Asserts resulting state changes in the Redux store.
 
 ---
 
-To download the project as a ZIP file, you can use the following link:
+## 🔄 CI: Continuous Integration
 
-[Download ZIP](https://github.com/njcross/ecomerce-firebase/archive/refs/heads/main.zip)
+GitHub Actions run on each push to `main` and pull requests:
+
+- Defined in `.github/workflows/main.yml`
+- Runs tests using Jest
+- Blocks merge if tests fail
+
+---
+
+## 🚀 CD: Continuous Deployment
+
+Deployment to Vercel is triggered only after passing CI tests.
+
+- Secrets (`VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`) must be set in GitHub repository.
+- Workflow defined in `.github/workflows/deploy.yml`
+
+---
+
+## 📂 Folder Structure
+
+```
+src/
+  components/        # UI Components like Home and Cart
+  store/             # Redux slices for cart and auth
+  api/               # Product API calls
+  firebaseConfig.ts  # Firebase initialization
+  types.ts           # TypeScript types
+__tests__/           # Unit and integration test files
+.github/workflows/   # CI/CD workflow YAMLs
+```
+
+---
+
+## 🔧 Scripts
+
+```bash
+npm install       # Install dependencies
+npm run dev       # Start Vite development server
+npm test          # Run Jest tests
+```
+
+---
+
+## 🛠 Technologies
+
+- React + Vite
+- TypeScript
+- Redux Toolkit
+- React Query
+- Firebase (Auth, Firestore)
+- GitHub Actions
+- Jest & RTL
+
+---
+
+## 🧪 TDD & CI/CD Summary
+
+### ✅ Test-Driven Development
+
+- **Unit Tests**: Components tested independently
+- **Integration Test**: Cart updates on adding product
+
+### ⚙️ CI/CD
+
+- **CI**: Automated test runs on pushes/PRs
+- **CD**: Deployment to Vercel after passing tests
