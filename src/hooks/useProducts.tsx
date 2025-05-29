@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
 
-export const useProducts = (category?: string) => {
-  const url = category
-    ? `https://fakestoreapi.com/products/category/${category}`
-    : 'https://fakestoreapi.com/products';
-
-  return useQuery(['products', category], async () => {
-    const res = await axios.get(url);
-    return res.data;
+export const useProducts = () => {
+  return useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const snapshot = await getDocs(collection(db, 'products'));
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    }
   });
 };
