@@ -18,7 +18,7 @@ const authSlice = createSlice({
       state.user = {
         uid: action.payload.uid,
         email: action.payload.email ?? '', // fallback for null
-    };
+      }; // ✅ fixed closing brace here
     },
     logout(state) {
       state.user = null;

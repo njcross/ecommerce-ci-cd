@@ -17,6 +17,7 @@ const Login = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+      console.log("Dispatching login:", user.uid, user.email);
       dispatch(login({ uid: user.uid, email: user.email || "" })); // ✅ update Redux immediately
       alert("Login successful!");
     } catch (err: any) {

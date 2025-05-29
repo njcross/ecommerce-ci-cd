@@ -156,7 +156,23 @@ const Home: React.FC = () => {
               <p>${product.price}</p>
               <p>{product.description}</p>
               <p>Stock: {product.stock}</p>
-              <button onClick={() => dispatch(addToCart(product))}>Add to Cart</button>
+              <button
+                onClick={() => {
+                  dispatch(
+                    addToCart({
+                      id: product.id,
+                      title: product.title,
+                      price: product.price,
+                      imageUrl: product.imageUrl || product.image,
+                      quantity: 1,
+                    })
+                  );
+                  navigate('/cart'); 
+                }}
+              >
+                Add to Cart
+              </button>
+
               <button onClick={() => handleUpdate(product.id, product)}>Edit</button>
               <button onClick={() => handleDelete(product.id)}>Delete</button>
             </div>
