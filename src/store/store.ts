@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './cartSlice';
 import exercisesReducer from './exercisesSlice';
+import authReducer from './authSlice';
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     exercises: exercisesReducer, // ✅ ensure this line is included
+    auth: authReducer,
   },
 });
 

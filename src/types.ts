@@ -9,3 +9,17 @@ export type Product = {
 };
 
 
+// types.ts
+export type Order = {
+  id: string;
+  userId: string;
+  createdAt: { seconds: number }; // or `Timestamp` if you're importing from firebase/firestore
+  total: number;
+  items: Array<{
+    productId: string;
+    title: string;
+    price: number;
+    quantity: number;
+  }>;
+};
+
