@@ -11,7 +11,7 @@ const OrderDetail = () => {
   enabled: !!orderId,
 });
 
-  if (isLoading) return <p>Loading order...</p>;\
+  if (isLoading) return <p>Loading order...</p>;
   if (error || !order) return <p>Error loading order details.</p>;
 
   return (
