@@ -1,26 +1,25 @@
-name: CI - Build and Test
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
 
-      - name: 🟢 Set up Node.js
-        uses: actions/setup-node@v4
+      - name: 🟢 Set up Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
 
-      - name: 📦 Install Dependencies
-        run: npm ci
+      - name: 📦 Install dependencies
+        run: npm install
 
       - name: ⚙️ Build the Project
         run: npm run build
@@ -28,10 +27,20 @@ jobs:
       - name: 🧪 Run Tests
         run: npm test -- --ci --watchAll=false
 
-      - name: ✅ Notify Success
-        if: success()
-        run: echo "✔️ Build and tests passed!"
+  deploy-to-vercel:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: success()
 
-      - name: ❌ Notify Failure
-        if: failure()
-        run: echo "❌ Build or tests failed."
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🚀 Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./
+          prod: true
