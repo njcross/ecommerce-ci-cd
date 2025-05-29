@@ -1,49 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
-import { fetchProducts, fetchCategories, fetchProductsByCategory } from '../api/products';
+import { fetchProducts } from '../api/products';
 import { addToCart } from '../store/cartSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const navigate = useNavigate();
 
-  // Fetch categories
-  const { data: categories, isLoading: loadingCategories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
-  });
-
-  // Fetch products (all or by category)
+  // Fetch all products from Firestore
   const { data: products, isLoading: loadingProducts } = useQuery({
-    queryKey: ['products', selectedCategory],
-    queryFn: () =>
-      selectedCategory === 'all'
-        ? fetchProducts()
-        : fetchProductsByCategory(selectedCategory),
+    queryKey: ['products'],
+    queryFn: fetchProducts,
   });
 
   return (
     <div>
       <h1>Product Catalog</h1>
-
-      {loadingCategories ? (
-        <p>Loading categories...</p>
-      ) : (
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          <option value="all">All Categories</option>
-          {categories?.map((category: string) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-      )}
 
       {loadingProducts ? (
         <p>Loading products...</p>
@@ -53,11 +27,14 @@ const Home: React.FC = () => {
             <div key={product.id} className="product-card">
               <img src={product.image} alt={product.title} width={100} />
               <h3>{product.title}</h3>
-              <p>{product.category}</p>
               <p>${product.price}</p>
               <p>{product.description}</p>
-              <p>Rating: {product.rating.rate}</p>
-              <button onClick={() => { dispatch(addToCart(product)); navigate('/cart'); }}>
+              <button
+                onClick={() => {
+                  dispatch(addToCart(product));
+                  navigate('/cart');
+                }}
+              >
                 Add to Cart
               </button>
             </div>
