@@ -1,5 +1,6 @@
 // src/components/Login.tsx
 import { useState } from "react";
+import React from 'react';
 import type { FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -50,7 +51,10 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button type="submit" disabled={!email || !password}>
+        Login
+        </button>
+
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
       <button onClick={handleLogout}>Logout</button>

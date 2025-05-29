@@ -1,6 +1,7 @@
 // Register.tsx
 import { useState } from "react";
 import type { FormEvent } from "react";
+import React from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
@@ -33,7 +34,10 @@ const Register = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type="submit">Register</button>
+      <button type="submit" disabled={!email || !password}>
+        Register
+        </button>
+
       {error && <p>{error}</p>}
     </form>
   );

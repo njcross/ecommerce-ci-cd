@@ -6,11 +6,12 @@ import Home from '../pages/Home';
 import Cart from '../pages/Cart';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
-import * as api from '../api/products'; // Import the API to mock
+import * as api from '../api/products';
+import { within } from '@testing-library/react';
 
 const queryClient = new QueryClient();
 
-jest.mock('../api/products'); // Mock the whole module
+jest.mock('../api/products');
 
 const mockProduct = {
   id: '1',
@@ -39,16 +40,21 @@ describe('Cart Integration Test', () => {
       </Provider>
     );
 
-    // Wait for products to appear
+    // 1. Wait for product to load on Home page
     await waitFor(() => expect(screen.getByText('Test Product')).toBeInTheDocument());
 
-    // Simulate clicking "Add to Cart"
+    // 2. Click "Add to Cart"
     const addButton = screen.getByText(/Add to Cart/i);
     fireEvent.click(addButton);
 
-    // Confirm item shows up in the cart
+    // 3. Wait for Cart to reflect the change
     await waitFor(() => {
-      expect(screen.getByText(/Stock:/i)).toBeInTheDocument();
+    const cart = screen.getByTestId('cart');
+    expect(within(cart).getByText('Test Product')).toBeInTheDocument();
+    expect(within(cart).getByText(/Price: \$10/)).toBeInTheDocument();
+    expect(within(cart).getByText(/Total: \$10\.00/)).toBeInTheDocument();
     });
+
+    
   });
 });
