@@ -7,8 +7,10 @@ export const fetchProducts = async () => {
 };
 
 export const addProduct = async (product: any) => {
-  return await addDoc(collection(db, 'products'), product);
+  const docRef = await addDoc(collection(db, 'products'), product);
+  return { id: docRef.id, ...product }; // ✅ return the complete product
 };
+
 
 export const updateProduct = async (id: string, updates: any) => {
   const productRef = doc(db, 'products', id);

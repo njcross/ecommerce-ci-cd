@@ -1,42 +1,148 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDispatch } from 'react-redux';
-import { fetchProducts } from '../api/products';
+import { fetchProducts, addProduct, updateProduct, deleteProduct } from '../api/products';
 import { addToCart } from '../store/cartSlice';
 import { useNavigate } from 'react-router-dom';
+import type { Product } from '../types';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  // Fetch all products from Firestore
-  const { data: products, isLoading: loadingProducts } = useQuery({
+  type NewProductInput = {
+    title: string;
+    price: string; // keep as string for input handling
+    description: string;
+    imageUrl: string;
+    stock: string;
+  };
+
+  const [newProduct, setNewProduct] = useState<NewProductInput>({
+    title: '',
+    price: '',
+    description: '',
+    imageUrl: '',
+    stock: '',
+  });
+
+  const { data: products, isLoading } = useQuery({
     queryKey: ['products'],
     queryFn: fetchProducts,
   });
+
+  const createMutation = useMutation({
+    mutationFn: addProduct,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] }),
+  });
+
+  
+  // Define the shape of the update payload
+  type UpdatePayload = {
+    id: string;
+    updates: Partial<Product>; // Replace with your actual Product type
+  };
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, updates }: UpdatePayload) => updateProduct(id, updates),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] }),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] }),
+  });
+
+
+  const handleCreate = () => {
+    const { title, price, description, imageUrl, stock } = newProduct;
+
+    if (!title || !price || !description || !imageUrl || !stock) {
+      alert("All fields are required.");
+      return;
+    }
+
+    const parsedPrice = parseFloat(price);
+    const parsedStock = parseInt(stock, 10);
+
+    if (isNaN(parsedPrice) || isNaN(parsedStock)) {
+      alert("Price and Stock must be valid numbers.");
+      return;
+    }
+
+    createMutation.mutate({
+      title,
+      price: parsedPrice,
+      description,
+      imageUrl,
+      stock: parsedStock,
+    });
+
+    setNewProduct({ title: '', price: '', description: '', imageUrl: '', stock: '' });
+  };
+
+
+  const handleUpdate = (id: string) => {
+    const updatedTitle = prompt('Enter new title:');
+    if (updatedTitle) {
+      updateMutation.mutate({ id, updates: { title: updatedTitle } });
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    if (window.confirm('Delete this product?')) {
+      deleteMutation.mutate(id);
+    }
+  };
 
   return (
     <div>
       <h1>Product Catalog</h1>
 
-      {loadingProducts ? (
+      <h2>Create Product</h2>
+      <input
+        placeholder="Title"
+        value={newProduct.title}
+        onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
+      />
+      <input
+        placeholder="Price"
+        value={newProduct.price}
+        onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+      />
+      <input
+        placeholder="Description"
+        value={newProduct.description}
+        onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+      />
+      <input
+        placeholder="Image URL"
+        value={newProduct.imageUrl }
+        onChange={(e) => setNewProduct({ ...newProduct, imageUrl: e.target.value })}
+      />
+      <input
+        placeholder="Stock"
+        value={newProduct.stock}
+        onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
+      />
+
+      <button onClick={handleCreate}>Create</button>
+
+      {isLoading ? (
         <p>Loading products...</p>
       ) : (
         <div className="product-list">
           {products?.map((product: any) => (
             <div key={product.id} className="product-card">
-              <img src={product.image} alt={product.title} width={100} />
+              <img src={product.imageUrl} alt={product.title} width={100} />
               <h3>{product.title}</h3>
               <p>${product.price}</p>
               <p>{product.description}</p>
-              <button
-                onClick={() => {
-                  dispatch(addToCart(product));
-                  navigate('/cart');
-                }}
-              >
-                Add to Cart
-              </button>
+              <p>Stock: {product.stock}</p>
+              <button onClick={() => dispatch(addToCart(product))}>Add to Cart</button>
+              <button onClick={() => handleUpdate(product.id)}>Edit</button>
+              <button onClick={() => handleDelete(product.id)}>Delete</button>
             </div>
           ))}
         </div>
