@@ -1,86 +1,102 @@
-# 🛍️ Ecommerce App with FakeStoreAPI
 
-A fully functional React + Redux Toolkit + React Query e-commerce app that simulates a real online store using the [FakeStoreAPI](https://fakestoreapi.com/). This project demonstrates advanced concepts such as API integration, Redux-based state management, and session persistence.
+# 🛒 Ecommerce App with Firebase
 
-## 📦 Features
+A fully functional e-commerce web application built with React, Redux Toolkit, React Query, and Firebase. This project simulates a real online store using the [FakeStoreAPI](https://fakestoreapi.com/) and demonstrates advanced concepts such as API integration, state management, and session persistence.
 
-- **Product Catalog**: Browse all products from the FakeStoreAPI with images, ratings, price, and descriptions.
-- **Category Filtering**: Dynamically filter products by category using a dropdown populated from the API.
-- **Cart Management**: Add, remove, and update product quantities in the cart with Redux Toolkit.
-- **Session Persistence**: Shopping cart state is saved in `sessionStorage` for persistence between sessions.
-- **Checkout Simulation**: Clears cart and session on checkout with a success message.
-- **Responsive UI**: Clean, responsive design using CSS modules and Bootstrap.
+## 🚀 Features
 
-## 🧰 Technologies Used
+- Product Catalog: Browse all products fetched from FakeStoreAPI.
+- Product Management: Admin users can create, update, and delete products.
+- Shopping Cart: Add products to the cart with quantity management and session persistence.
+- User Authentication: Firebase Authentication with email/password support.
+- Order Management: Checkout process with order history stored in Firebase Firestore.
+- Responsive Design: Mobile-friendly and responsive UI.
+
+## 🛠️ Technologies Used
 
 - React
 - Redux Toolkit
 - React Query
+- Firebase (Authentication & Firestore)
 - TypeScript
-- React Router DOM
+- Vite
 - Bootstrap
-- FakeStoreAPI
 
-## 🚀 Getting Started
+## 📦 Installation
 
-### Prerequisites
+1. **Clone the repository:**
 
-- Node.js (v16 or later)
-- npm
+   ```bash
+   git clone https://github.com/njcross/ecomerce-firebase.git
+   cd ecomerce-firebase
+   ```
 
-### Installation
+2. **Install dependencies:**
 
-```bash
-git clone https://github.com/njcross/ecommerce-app.git
-cd ecommerce-app
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-### Running the App
+3. **Set up Firebase:**
 
-```bash
-npm run dev
-```
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
+   - Enable **Authentication** (Email/Password) and **Firestore Database**.
+   - Obtain your Firebase configuration and create a `.env` file in the root directory:
 
-The application will be available at [http://localhost:5173](http://localhost:5173).
+     ```env
+     VITE_FIREBASE_API_KEY=your_api_key
+     VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+     VITE_FIREBASE_PROJECT_ID=your_project_id
+     VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+     VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+     VITE_FIREBASE_APP_ID=your_app_id
+     ```
+
+4. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   The application will be available at `http://localhost:5173/`.
 
 ## 📁 Project Structure
 
 ```
-src/
-├── api/                # API utility functions
-├── components/         # Reusable UI components
-├── pages/              # Page components (Home, Cart, etc.)
-├── store/              # Redux slices and store config
-├── App.tsx             # Main app routes
-└── main.tsx            # App entry point
+ecomerce-firebase/
+├── public/
+├── src/
+│   ├── api/               # API calls to FakeStoreAPI
+│   ├── components/        # Reusable UI components
+│   ├── pages/             # Page components (Home, Cart, Orders, etc.)
+│   ├── store/             # Redux slices and store configuration
+│   ├── types/             # TypeScript type definitions
+│   ├── firebaseConfig.ts  # Firebase configuration
+│   └── main.tsx           # Application entry point
+├── .env                   # Environment variables
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
-## 🛠️ Functionality Overview
+## 🧪 Testing
 
-### Product Listing
+To run tests (if available), use:
 
-- Loads all products via React Query.
-- Shows title, price, category, rating, image, and description.
-- Products can be added to cart from the home screen.
+```bash
+npm test
+```
 
-### Category Navigation
+## 📄 License
 
-- Dropdown built from `/products/categories` API.
-- Filters product list on selection.
-
-### Shopping Cart
-
-- View products in cart with quantity and price.
-- Modify quantity or remove items.
-- Checkout button simulates purchase and resets cart.
-
-## 📚 Learn More
-
-- [React Query Docs](https://tanstack.com/query/latest)
-- [Redux Toolkit Docs](https://redux-toolkit.js.org/)
-- [FakeStoreAPI Docs](https://fakestoreapi.com/docs)
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-© 2025 Nicholas Cross – Educational project built for learning purposes.
+For more information, visit the [GitHub repository](https://github.com/njcross/ecomerce-firebase).
+
+---
+
+To download the project as a ZIP file, you can use the following link:
+
+[Download ZIP](https://github.com/njcross/ecomerce-firebase/archive/refs/heads/main.zip)
