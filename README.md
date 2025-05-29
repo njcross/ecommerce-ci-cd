@@ -1,106 +1,45 @@
+# E-commerce App with CI/CD
 
-# 🛒 Ecommerce React + Firebase App
+This is a full-stack e-commerce application built using React, Redux Toolkit, Firebase, and React Query. The project implements Continuous Integration and Continuous Deployment using GitHub Actions and Vercel.
 
-A full-stack e-commerce application built with React, Redux, Firebase, and React Query. Users can browse products, add to cart, check out, and view order history.
+## 🔗 Live Demo
 
----
+🌐 [Visit the App](https://ecommerce-ci-cd.vercel.app/)
 
 ## 🚀 Features
 
-- View, add, edit, and delete products.
-- Add products to a shopping cart with quantity management.
-- Checkout and create orders in Firestore.
-- View past orders with timestamps.
-- Firebase Authentication for user management.
-- React Query for data fetching and caching.
-- Redux Toolkit for cart and auth state management.
-- TypeScript for type safety.
-- CI/CD with GitHub Actions and Vercel.
+- Product listing and details
+- Shopping cart with quantity adjustments
+- User authentication (Login/Register)
+- Order checkout and Firestore integration
+- Jest unit and integration tests
+- CI/CD with GitHub Actions and Vercel
 
----
+## 🧪 Testing
 
-## 🧪 Testing Strategy
-
-### ✅ Unit Tests
-
-- Tests are written using **Jest** and **React Testing Library**.
-- Includes component rendering, state updates, and user interactions.
+Tests are written using **React Testing Library** and **Jest**. Run tests with:
 
 ```bash
 npm test
 ```
 
-### ✅ Integration Tests
+## ⚙️ CI/CD Pipeline
 
-- Simulates adding a product to the cart.
-- Asserts resulting state changes in the Redux store.
+- GitHub Actions for CI (build and test on push to `main`)
+- Deploys to Vercel only if CI passes
 
----
-
-## 🔄 CI: Continuous Integration
-
-GitHub Actions run on each push to `main` and pull requests:
-
-- Defined in `.github/workflows/main.yml`
-- Runs tests using Jest
-- Blocks merge if tests fail
-
----
-
-## 🚀 CD: Continuous Deployment
-
-Deployment to Vercel is triggered only after passing CI tests.
-
-- Secrets (`VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`) must be set in GitHub repository.
-- Workflow defined in `.github/workflows/deploy.yml`
-
----
-
-## 📂 Folder Structure
+## 📁 Project Structure
 
 ```
 src/
-  components/        # UI Components like Home and Cart
-  store/             # Redux slices for cart and auth
-  api/               # Product API calls
-  firebaseConfig.ts  # Firebase initialization
-  types.ts           # TypeScript types
-__tests__/           # Unit and integration test files
-.github/workflows/   # CI/CD workflow YAMLs
+├── api/                # API helpers
+├── components/         # Reusable components
+├── pages/              # Page components
+├── store/              # Redux store and slices
+├── __tests__/          # Unit and integration tests
+└── firebaseConfig.ts   # Firebase setup
 ```
 
----
+## 📄 License
 
-## 🔧 Scripts
-
-```bash
-npm install       # Install dependencies
-npm run dev       # Start Vite development server
-npm test          # Run Jest tests
-```
-
----
-
-## 🛠 Technologies
-
-- React + Vite
-- TypeScript
-- Redux Toolkit
-- React Query
-- Firebase (Auth, Firestore)
-- GitHub Actions
-- Jest & RTL
-
----
-
-## 🧪 TDD & CI/CD Summary
-
-### ✅ Test-Driven Development
-
-- **Unit Tests**: Components tested independently
-- **Integration Test**: Cart updates on adding product
-
-### ⚙️ CI/CD
-
-- **CI**: Automated test runs on pushes/PRs
-- **CD**: Deployment to Vercel after passing tests
+This project is licensed under the MIT License.
