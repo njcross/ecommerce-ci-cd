@@ -3,6 +3,7 @@ import { fetchUserOrders } from '../api/orders';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import type { Order } from '../types';
+import styles from './Orders.module.css';
 
 const Orders = () => {
   const user = useSelector((state: any) => state.auth.user);
@@ -14,14 +15,19 @@ const Orders = () => {
   });
 
   return (
-    <div>
-      <h1>Order History</h1>
-      {orders.map(order => (
-        <div key={order.id}>
-          <p>Order ID: {order.id}</p>
-          <p>Date: {new Date(order.createdAt.seconds * 1000).toLocaleString()}</p>
-          <p>Total: ${order.total}</p>
-          <Link to={`/orders/${order.id}`}>View Details</Link>
+    <div className={styles.ordersContainer}>
+      <h1 className={styles.ordersTitle}>Order History</h1>
+      {orders.map((order) => (
+        <div key={order.id} className={styles.orderCard}>
+          <p><strong>Order ID:</strong> {order.id}</p>
+          <p>
+            <strong>Date:</strong>{' '}
+            {new Date(order.createdAt.seconds * 1000).toLocaleString()}
+          </p>
+          <p><strong>Total:</strong> ${order.total}</p>
+          <Link to={`/orders/${order.id}`} className={styles.detailsLink}>
+            View Details
+          </Link>
         </div>
       ))}
     </div>

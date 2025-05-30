@@ -5,6 +5,7 @@ import { fetchProducts, addProduct, updateProduct, deleteProduct } from '../api/
 import { addToCart } from '../store/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import type { Product } from '../types';
+import styles from './Home.module.css';
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const Home: React.FC = () => {
 
   type NewProductInput = {
     title: string;
-    price: string; // keep as string for input handling
+    price: string;
     description: string;
     imageUrl: string;
     stock: string;
@@ -37,11 +38,9 @@ const Home: React.FC = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] }),
   });
 
-  
-  // Define the shape of the update payload
   type UpdatePayload = {
     id: string;
-    updates: Partial<Product>; // Replace with your actual Product type
+    updates: Partial<Product>;
   };
 
   const updateMutation = useMutation({
@@ -54,10 +53,8 @@ const Home: React.FC = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] }),
   });
 
-
   const handleCreate = () => {
     const { title, price, description, imageUrl, stock } = newProduct;
-
     if (!title || !price || !description || !imageUrl || !stock) {
       alert("All fields are required.");
       return;
@@ -82,7 +79,6 @@ const Home: React.FC = () => {
     setNewProduct({ title: '', price: '', description: '', imageUrl: '', stock: '' });
   };
 
-
   const handleUpdate = (id: string, currentProduct: Product) => {
     const title = prompt('New title:', currentProduct.title);
     const price = prompt('New price:', String(currentProduct.price));
@@ -104,8 +100,6 @@ const Home: React.FC = () => {
     }
   };
 
-
-
   const handleDelete = (id: string) => {
     if (window.confirm('Delete this product?')) {
       deleteMutation.mutate(id);
@@ -113,50 +107,40 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Product Catalog</h1>
+    <div className={styles.homeContainer}>
+      <h1 className={styles.heading}>Product Catalog</h1>
 
       <h2>Create Product</h2>
-      <input
-        placeholder="Title"
-        value={newProduct.title}
-        onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
-      />
-      <input
-        placeholder="Price"
-        value={newProduct.price}
-        onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-      />
-      <input
-        placeholder="Description"
-        value={newProduct.description}
-        onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
-      />
-      <input
-        placeholder="Image URL"
-        value={newProduct.imageUrl }
-        onChange={(e) => setNewProduct({ ...newProduct, imageUrl: e.target.value })}
-      />
-      <input
-        placeholder="Stock"
-        value={newProduct.stock}
-        onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
-      />
-
-      <button onClick={handleCreate}>Create</button>
+      <div className={styles.formGroup}>
+        {['title', 'price', 'description', 'imageUrl', 'stock'].map((field) => (
+          <input
+            key={field}
+            placeholder={field[0].toUpperCase() + field.slice(1)}
+            value={newProduct[field as keyof NewProductInput]}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, [field]: e.target.value })
+            }
+            className={styles.input}
+          />
+        ))}
+        <button onClick={handleCreate} className={styles.createButton}>
+          Create
+        </button>
+      </div>
 
       {isLoading ? (
         <p>Loading products...</p>
       ) : (
-        <div className="product-list">
+        <div className={styles.productList}>
           {products?.map((product: any) => (
-            <div key={product.id} className="product-card">
-              <img src={product.imageUrl} alt={product.title} width={100} />
+            <div key={product.id} className={styles.productCard}>
+              <img src={product.imageUrl} alt={product.title} className={styles.image} />
               <h3>{product.title}</h3>
               <p>${product.price}</p>
               <p>{product.description}</p>
               <p>Stock: {product.stock}</p>
               <button
+                className={styles.button}
                 onClick={() => {
                   dispatch(
                     addToCart({
@@ -167,14 +151,23 @@ const Home: React.FC = () => {
                       quantity: 1,
                     })
                   );
-                  navigate('/cart'); 
+                  navigate('/cart');
                 }}
               >
                 Add to Cart
               </button>
-
-              <button onClick={() => handleUpdate(product.id, product)}>Edit</button>
-              <button onClick={() => handleDelete(product.id)}>Delete</button>
+              <button
+                className={styles.button}
+                onClick={() => handleUpdate(product.id, product)}
+              >
+                Edit
+              </button>
+              <button
+                className={styles.deleteButton}
+                onClick={() => handleDelete(product.id)}
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>

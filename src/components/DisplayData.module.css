@@ -1,0 +1,55 @@
+.displaydataContainer {
+  padding: 2rem;
+}
+
+.displaydataTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.displaydataContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.userCard {
+  border: 2px solid #333;
+  border-radius: 6px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.input {
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button {
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.deleteButton {
+  background-color: crimson;
+}
+
+.deleteButton:hover {
+  background-color: darkred;
+}

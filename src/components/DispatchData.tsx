@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
+import styles from './DispatchData.module.css';
 
 interface User {
   id?: string; // id is optional, as it will only be available after data is fetched
@@ -26,14 +27,16 @@ const DisplayData = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Users List</h2>
+    <div className={styles.dispatchdataContainer}>
+      <h2 {styles.dispatchdataTitle}>Users List</h2>
+      <div className={styles.dispatchdataContent}>
       {users.map((user) => (
         <div key={user.id}>
           <p>Name: {user.name}</p>
           <p>Age: {user.age}</p>
         </div>
       ))}
+      </div>
     </div>
   );
 };

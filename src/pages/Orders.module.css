@@ -1,0 +1,31 @@
+.ordersContainer {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 1rem;
+}
+
+.ordersTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.orderCard {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  background-color: #fdfdfd;
+}
+
+.detailsLink {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.detailsLink:hover {
+  color: #0056b3;
+}

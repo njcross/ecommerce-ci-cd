@@ -1,10 +1,10 @@
-// AddDataForm.tsx
 import React, { useState } from 'react';
 import { db } from '../firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
+import styles from './AddDataForm.module.css';
 
 interface User {
-  id?: string; // id is optional, as it will only be available after data is fetched
+  id?: string;
   name: string;
   age: number;
 }
@@ -22,18 +22,38 @@ const AddDataForm = () => {
     try {
       await addDoc(collection(db, 'users'), data);
       alert('Data added!');
-      setData({ name: '', age: 0 }); // reset form
+      setData({ name: '', age: 0 });
     } catch (error) {
       console.error('Error adding document: ', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="name" value={data.name} onChange={handleChange} placeholder="Name" />
-      <input name="age" type="number" value={data.age} onChange={handleChange} placeholder="Age" />
-      <button type="submit">Add User</button>
-    </form>
+    <div className={styles.adddataformContainer}>
+      <h2 className={styles.adddataformTitle}>Add User</h2>
+      <div className={styles.adddataformContent}>
+        <form onSubmit={handleSubmit}>
+          <input
+            name="name"
+            value={data.name}
+            onChange={handleChange}
+            placeholder="Name"
+            className={styles.input}
+          />
+          <input
+            name="age"
+            type="number"
+            value={data.age}
+            onChange={handleChange}
+            placeholder="Age"
+            className={styles.input}
+          />
+          <button type="submit" className={styles.button}>
+            Add User
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

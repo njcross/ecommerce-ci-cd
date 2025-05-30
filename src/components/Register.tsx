@@ -1,45 +1,52 @@
-// Register.tsx
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { useState, FormEvent } from 'react';
 import React from 'react';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import styles from './Register.module.css';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 
 const Register = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      alert("Registration successful!");
+      alert('Registration successful!');
     } catch (err: any) {
       setError(err.message);
     }
   };
 
   return (
-    <form onSubmit={handleRegister}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit" disabled={!email || !password}>
-        Register
+    <div className={styles.registerContainer}>
+      <h2 className={styles.registerTitle}>Register</h2>
+      <form onSubmit={handleRegister} className={styles.registerContent}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={styles.input}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={styles.input}
+        />
+        <button
+          type="submit"
+          disabled={!email || !password}
+          className={styles.button}
+        >
+          Register
         </button>
-
-      {error && <p>{error}</p>}
-    </form>
+        {error && <p className={styles.error}>{error}</p>}
+      </form>
+    </div>
   );
 };
 

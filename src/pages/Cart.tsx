@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { addDoc, collection, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import type { RootState } from '../store/store';
+import styles from './Cart.module.css';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -43,35 +44,44 @@ const Cart = () => {
   };
 
   return (
-    <div data-testid="cart">
-      <h2>Your Cart</h2>
+    <div className={styles.cartContainer} data-testid="cart">
+      <h2 className={styles.cartTitle}>Your Cart</h2>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p className={styles.emptyMessage}>Your cart is empty.</p>
       ) : (
-        cartItems.map((item) => (
-          <div key={item.id} style={{ marginBottom: '1rem' }}>
-            <img src={item.imageUrl} alt={item.title} width={80} />
-            <p><strong>{item.title}</strong></p>
-            <p>Price: ${item.price}</p>
-            <label>
-              Quantity:
-              <input
-                type="number"
-                value={item.quantity}
-                min="1"
-                onChange={(e) =>
-                  dispatch(updateQuantity({ id: item.id, quantity: Number(e.target.value) }))
-                }
-              />
-            </label>
-            <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
-            <br />
-            <button onClick={() => dispatch(removeFromCart(item.id))}>Remove</button>
-          </div>
-        ))
+        <div className={styles.cartList}>
+          {cartItems.map((item) => (
+            <div key={item.id} className={styles.cartItem}>
+              <img src={item.imageUrl} alt={item.title} className={styles.image} />
+              <p><strong>{item.title}</strong></p>
+              <p>Price: ${item.price}</p>
+              <label>
+                Quantity:
+                <input
+                  type="number"
+                  value={item.quantity}
+                  min="1"
+                  onChange={(e) =>
+                    dispatch(updateQuantity({ id: item.id, quantity: Number(e.target.value) }))
+                  }
+                  className={styles.input}
+                />
+              </label>
+              <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
+              <button
+                className={styles.removeButton}
+                onClick={() => dispatch(removeFromCart(item.id))}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
       )}
       {cartItems.length > 0 && (
-        <button onClick={handleCheckout}>Checkout</button>
+        <button className={styles.checkoutButton} onClick={handleCheckout}>
+          Checkout
+        </button>
       )}
     </div>
   );

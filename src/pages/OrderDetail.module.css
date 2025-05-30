@@ -1,0 +1,38 @@
+.orderContainer {
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fffdfb;
+}
+
+.orderTitle {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.subheading {
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.message {
+  text-align: center;
+  color: #777;
+  margin-top: 2rem;
+}
