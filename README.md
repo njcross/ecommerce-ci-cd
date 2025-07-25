@@ -1,6 +1,6 @@
 # E-commerce App with CI/CD
 
-This is a full-stack e-commerce application built using React, Redux Toolkit, Firebase, and React Query. The project implements Continuous Integration and Continuous Deployment using GitHub Actions and Vercel.
+A fully functional e-commerce web application built with React, Redux Toolkit, React Query, and Firebase. This project simulates a real online store using the [FakeStoreAPI](https://fakestoreapi.com/) and demonstrates advanced concepts such as API integration, state management, and session persistence. The project implements Continuous Integration and Continuous Deployment using GitHub Actions and Vercel.
 
 ## 🔗 Live Demo
 
